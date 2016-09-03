@@ -2,7 +2,7 @@ import numpy as np
 from PIL import Image  # pillow
 
 import pygame
-from games import base
+from ple.games import base
 
 
 class PLE(object):
@@ -112,23 +112,19 @@ class PLE(object):
         if reward_values:
             self.game.adjustRewards(reward_values)
 
-
-        if isinstance(self.game, base.PyGameWrapper):
-            if isinstance(rng, np.random.RandomState):
-                self.rng = rng
-            else:
-                self.rng = np.random.RandomState(rng)
-
-            # some pygame games preload the images
-            # to speed resetting and inits up.
-            pygame.display.set_mode((1, 1), pygame.NOFRAME)
-        
-        #vizdoom needs an int
-        if isinstance(self.game, base.DoomWrapper):
+        if isinstance(rng, np.random.RandomState):
             self.rng = rng
-        
+        else:
+            self.rng = np.random.RandomState(rng)
+
         self.game.setRNG(self.rng)
-        self.init()
+
+        # some pygame games preload the images
+        # to speed resetting and inits up.
+        if isinstance(self.game, base.PyGameWrapper):
+            pygame.display.set_mode((1, 1), pygame.NOFRAME)
+
+        self.game.init()
 
         self.state_preprocessor = state_preprocessor
         self.state_dim = None
@@ -162,8 +158,7 @@ class PLE(object):
 
         This method should be explicitly called.
         """
-        self.game._setup()
-        self.game.init() #this is the games setup/init
+        self.game._init()
 
     def getActionSet(self):
         """
@@ -178,15 +173,11 @@ class PLE(object):
             to perform.
 
         """
-        actions = self.game.actions
-        
-        if isinstance(actions, dict):
-            actions = actions.values()
-
-        assert isinstance(actions, list), "actions is not a list"
+        actions = self.game.actions.values()
 
         if self.add_noop_action:
-            actions.append(self.NOOP)
+            #<JC>actions.append(self.NOOP)
+            actions = [actions, self.NOOP]
 
         return actions
 

@@ -2,7 +2,7 @@ import pygame
 import sys
 import math
 
-import base
+from .base import PyGameWrapper
 
 from pygame.constants import K_w, K_a, K_s, K_d
 from primitives import Player, Creep
@@ -54,7 +54,7 @@ class PuckCreep(pygame.sprite.Sprite):
         self.rect.center = (self.pos.x, self.pos.y)
 
 
-class PuckWorld(base.PyGameWrapper):
+class PuckWorld(PyGameWrapper):
     """
     Based Karpthy's PuckWorld in `REINFORCEjs`_.
 
@@ -81,7 +81,7 @@ class PuckWorld(base.PyGameWrapper):
             "down": K_s
         }
 
-        base.PyGameWrapper.__init__(self, width, height, actions=actions)
+        PyGameWrapper.__init__(self, width, height, actions=actions)
 
         self.CREEP_BAD = {
             "radius_center": percent_round_int(width, 0.047),

@@ -2,7 +2,7 @@ __author__ = 'Batchu Vishal'
 import pygame
 import sys
 from pygame.constants import K_a, K_d, K_SPACE, K_w, K_s, QUIT, KEYDOWN
-from board import Board
+from .board import Board
 from .. import base
 import numpy as np
 import os
