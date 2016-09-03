@@ -2,11 +2,11 @@ import pygame
 import sys
 import math
 
-import base
+from . import base
 
 from pygame.constants import K_w, K_a, K_s, K_d
-from utils.vec2d import vec2d
-from utils import percent_round_int
+from .utils.vec2d import vec2d
+from .utils import percent_round_int
 
 
 class Food(pygame.sprite.Sprite):
@@ -101,7 +101,6 @@ class SnakePlayer():
         self.width = width
         self.length = length
         self.body = []
-        self.update_head = True
 
         # build our body up
         for i in range(self.length):
@@ -119,85 +118,40 @@ class SnakePlayer():
         self.body_group = pygame.sprite.Group()
         self.head = self.body[0]
 
-    def update(self, dt):
+    def update(self, dt, hit=False):
+        # Save the last position before move snake body
+        last = self.body[-1].pos
+        # Shift snake body
         for i in range(self.length - 1, 0, -1):
-            scale = 0.1
+            scale = 0
 
-            self.body[i].pos = vec2d((
-                ((1.0 - scale) *
-                 self.body[i - 1].pos.x + scale * self.body[i].pos.x),
-                ((1.0 - scale) *
-                 self.body[i - 1].pos.y + scale * self.body[i].pos.y)
-            ))
-
+            self.body[i].pos.x = self.body[i-1].pos.x
+            self.body[i].pos.y = self.body[i-1].pos.y
+            #print(i, self.body[i].pos.x, self.body[i].pos.y)
             self.body[i].rect.center = (self.body[i].pos.x, self.body[i].pos.y)
 
-        self.head.pos.x += self.dir.x * self.speed * dt
-        self.head.pos.y += self.dir.y * self.speed * dt
-        self.update_hitbox()
+        self.head.pos.x += self.dir.x * self.width
+        self.head.pos.y += self.dir.y * self.width
+        #print("head", self.body[0].pos.x, self.body[0].pos.y)
+        self.head.rect.center = (self.head.pos.x, self.head.pos.y)
 
-    def update_hitbox(self):
-        # need to make a small rect pointing the direction the snake is
-        # instead of counting the entire head square as a hit box, since
-        # the head touchs the body on turns and causes game overs.
+        if hit:
+            self.length += 1
+            #print("hit, len =", self.length)
+            add = 100 if self.length % 2 == 0 else -100
+            color = (self.color[0] + add, self.color[1], self.color[2] + add)
 
-        x = self.head.pos.x
-        y = self.head.pos.y
-
-        if self.dir.x == 0:
-            w = self.width
-            h = percent_round_int(self.width, 0.25)
-
-            if self.dir.y == 1:
-                y += percent_round_int(self.width, 1.0)
-
-            if self.dir.y == -1:
-                y -= percent_round_int(self.width, 0.25)
-
-        if self.dir.y == 0:
-            w = percent_round_int(self.width, 0.25)
-            h = self.width
-
-            if self.dir.x == 1:
-                x += percent_round_int(self.width, 1.0)
-
-            if self.dir.x == -1:
-                x -= percent_round_int(self.width, 0.25)
-
-        if self.update_head:
-            image = pygame.Surface((w, h))
-            image.fill((0, 0, 0))
-            image.set_colorkey((0, 0, 0))
-
-            pygame.draw.rect(
-                image,
-                (255, 0, 0),
-                (0, 0, w, h),
-                0
+            self.body.append(
+                SnakeSegment(
+                    (last.x, last.y),  # initially off screen?
+                    self.width,
+                    self.width,
+                    color
+                )
             )
+            if self.length > 3:  # we cant actually hit another segment until this point.
+                self.body_group.add(self.body[-1])
 
-            self.head.image = image
-            self.head.rect = self.head.image.get_rect()
-            self.update_head = False
-
-        self.head.rect.center = (x, y)
-
-    def grow(self):
-        self.length += 1
-        add = 100 if self.length % 2 == 0 else -100
-        color = (self.color[0] + add, self.color[1], self.color[2] + add)
-        last = self.body[-1].pos
-
-        self.body.append(
-            SnakeSegment(
-                        (last.x, last.y),  # initially off screen?
-                self.width,
-                self.width,
-                color
-            )
-        )
-        if self.length > 3:  # we cant actually hit another segment until this point.
-            self.body_group.add(self.body[-1])
 
     def draw(self, screen):
         for b in self.body[::-1]:
@@ -227,16 +181,16 @@ class Snake(base.PyGameWrapper):
         actions = {
             "up": K_w,
             "left": K_a,
-            "right": K_d,
-            "down": K_s
+            "down": K_s,
+            "right": K_d
         }
 
         base.PyGameWrapper.__init__(self, width, height, actions=actions)
 
-        self.speed = percent_round_int(width, 0.45)
+        self.speed = percent_round_int.percent_round_int(width, 0.45)
 
-        self.player_width = percent_round_int(width, 0.05)
-        self.food_width = percent_round_int(width, 0.09)
+        self.player_width = percent_round_int.percent_round_int(width, 0.1)
+        self.food_width = percent_round_int.percent_round_int(width, 0.1)
         self.player_color = (100, 255, 100)
         self.food_color = (255, 100, 100)
 
@@ -244,6 +198,10 @@ class Snake(base.PyGameWrapper):
         self.init_length = init_length
 
         self.BG_COLOR = (25, 25, 25)
+
+        # To allow more chance in keydown processing. It seems w/o this snake 
+        # cannot make consecutive 1-step turns.
+        self.keydown_counter = 0
 
     def _handle_player_events(self):
         for event in pygame.event.get():
@@ -270,8 +228,6 @@ class Snake(base.PyGameWrapper):
 
                 if key == self.actions["down"] and self.player.dir.y != -1:
                     self.player.dir = vec2d((0, 1))
-
-                self.player.update_head = True
 
     def getGameState(self):
         """
@@ -344,42 +300,45 @@ class Snake(base.PyGameWrapper):
         """
             Perform one step of game emulation.
         """
-        dt /= 1000.0
+        self.keydown_counter += dt
 
         self.ticks += 1
         self.screen.fill(self.BG_COLOR)
         self._handle_player_events()
         self.score += self.rewards["tick"]
 
-        hit = pygame.sprite.collide_rect(self.player.head, self.food)
-        if hit:  # it hit
-            self.score += self.rewards["positive"]
-            self.player.grow()
-            self.food.new_position(self.player)
+        if self.keydown_counter > 100:
+            self.keydown_counter = 0
 
-        hits = pygame.sprite.spritecollide(
-            self.player.head, self.player.body_group, False)
-        if len(hits) > 0:
-            self.lives = -1
+            hit = pygame.sprite.collide_rect(self.player.head, self.food)
+            # Update postions of snake body
+            self.player.update(dt,hit)
 
-        x_check = (
-            self.player.head.pos.x < 0) or (
-            self.player.head.pos.x +
-            self.player_width /
-            2 > self.width)
-        y_check = (
-            self.player.head.pos.y < 0) or (
-            self.player.head.pos.y +
-            self.player_width /
-            2 > self.height)
+            if hit:  # it hit
+                self.score += self.rewards["positive"]
+                self.food.new_position(self.player)
 
-        if x_check or y_check:
-            self.lives = -1
+            hits = pygame.sprite.spritecollide(
+                self.player.head, self.player.body_group, False)
+            if len(hits) > 0:
+                self.lives = -1
 
-        if self.lives <= 0.0:
-            self.score += self.rewards["loss"]
+            x_check = (
+                self.player.head.pos.x < 0) or (
+                self.player.head.pos.x +
+                self.player_width /
+                2 > self.width)
+            y_check = (
+                self.player.head.pos.y < 0) or (
+                self.player.head.pos.y +
+                self.player_width /
+                2 > self.height)
 
-        self.player.update(dt)
+            if x_check or y_check:
+                self.lives = -1
+
+            if self.lives <= 0.0:
+                self.score += self.rewards["loss"]
 
         self.player.draw(self.screen)
         self.food.draw(self.screen)
