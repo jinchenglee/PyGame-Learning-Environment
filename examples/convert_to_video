@@ -1,0 +1,1 @@
+ffmpeg -framerate 30 -i tmp/image%5d.png -c:v libx264 out.mp4

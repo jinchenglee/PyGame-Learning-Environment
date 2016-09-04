@@ -1,7 +1,7 @@
-import base
+from . import base
 import pygame
 import numpy as np
-from raycast import RayCastPlayer
+from .raycast import RayCastPlayer
 from pygame.constants import K_w, K_a, K_d, K_s
 
 
@@ -197,8 +197,8 @@ if __name__ == "__main__":
         dt = game.clock.tick_busy_loop(fps)
 
         if game.game_over():
-            print "Game over!"
-            print "Resetting!"
+            print("Game over!")
+            print("Resetting!")
             game.reset()
 
         game.step(dt)

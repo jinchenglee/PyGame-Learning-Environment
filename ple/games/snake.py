@@ -40,19 +40,22 @@ class Food(pygame.sprite.Sprite):
     def new_position(self, snake):
         new_pos = snake.body[0].pos
         snake_body = [s.pos for s in snake.body]
+        #snake_body_p = [(s.pos.x,s.pos.y) for s in snake.body]
+        #print(snake_body_p)
 
         while (new_pos in snake_body):
             _x = self.rng.choice(range(
-                self.width * 2, self.SCREEN_WIDTH - self.width * 2, self.width
+                0, self.SCREEN_WIDTH- self.width, self.width
             ))
 
             _y = self.rng.choice(range(
-                self.width * 2, self.SCREEN_HEIGHT - self.width * 2, self.width
+                0, self.SCREEN_HEIGHT - self.width, self.width
             ))
 
             new_pos = vec2d((_x, _y))
 
         self.pos = new_pos
+        #print(new_pos.x,new_pos.y)
         self.rect.center = (self.pos.x, self.pos.y)
 
     def draw(self, screen):
@@ -85,17 +88,15 @@ class SnakeSegment(pygame.sprite.Sprite):
         self.rect = pygame.Rect(pos_init, (self.width / 2, self.height / 2))
         self.rect.center = pos_init
 
-    def draw(self, screen):
-        screen.blit(self.image, self.rect.center)
+    def draw(self, screen): screen.blit(self.image, self.rect.center)
 
 
 # basically just holds onto all of them
 class SnakePlayer():
 
-    def __init__(self, speed, length, pos_init, width,
+    def __init__(self, length, pos_init, width,
                  color, SCREEN_WIDTH, SCREEN_HEIGHT):
         self.dir = vec2d((1, 0))
-        self.speed = speed
         self.pos = vec2d(pos_init)
         self.color = color
         self.width = width
@@ -107,11 +108,10 @@ class SnakePlayer():
             self.body.append(
                 # makes a neat "zapping" in effect
                 SnakeSegment(
-                            (self.pos.x - (width) * i, self.pos.y),
+                    (self.pos.x - (width) * i, self.pos.y),
                     self.width,
                     self.width,
-                    tuple([c - 100 for c in self.color]
-                          ) if i == 0 else self.color
+                    (255,255,0) if i==0 else self.color 
                 )
             )
         # we dont add the first few because it cause never actually hit it
@@ -138,6 +138,8 @@ class SnakePlayer():
         if hit:
             self.length += 1
             #print("hit, len =", self.length)
+
+            # Fancy body color.
             add = 100 if self.length % 2 == 0 else -100
             color = (self.color[0] + add, self.color[1], self.color[2] + add)
 
@@ -176,7 +178,7 @@ class Snake(base.PyGameWrapper):
     def __init__(self,
                  width=64,
                  height=64,
-                 init_length=3):
+                 init_length=1):
 
         actions = {
             "up": K_w,
@@ -187,20 +189,29 @@ class Snake(base.PyGameWrapper):
 
         base.PyGameWrapper.__init__(self, width, height, actions=actions)
 
-        self.speed = percent_round_int.percent_round_int(width, 0.45)
-
         self.player_width = percent_round_int.percent_round_int(width, 0.1)
         self.food_width = percent_round_int.percent_round_int(width, 0.1)
-        self.player_color = (100, 255, 100)
-        self.food_color = (255, 100, 100)
+        self.player_color = (0, 255, 0)
+        self.food_color = (255, 0, 0)
 
-        self.INIT_POS = (width / 2, height / 2)
+        self.INIT_POS = (self.player_width*2, self.player_width*2)
         self.init_length = init_length
 
-        self.BG_COLOR = (25, 25, 25)
+        self.BG_COLOR = (0, 0, 0)
+
+        self.rewards = {
+            "positive": 1.0,
+            "negative": -1.0,
+            "tick": -0.01,
+            "loss": -5.0,
+            "win": 5.0
+        }
+
 
         # To allow more chance in keydown processing. It seems w/o this snake 
         # cannot make consecutive 1-step turns.
+        # Looks like a hack. Not sure whether pygame has a better way to impl 
+        # this.
         self.keydown_counter = 0
 
     def _handle_player_events(self):
@@ -273,7 +284,6 @@ class Snake(base.PyGameWrapper):
         """
 
         self.player = SnakePlayer(
-            self.speed,
             self.init_length,
             self.INIT_POS,
             self.player_width,
@@ -311,16 +321,18 @@ class Snake(base.PyGameWrapper):
             self.keydown_counter = 0
 
             hit = pygame.sprite.collide_rect(self.player.head, self.food)
-            # Update postions of snake body
+            # Update postions of snake body. Should be done before 
+            # self.food.new_position() to avoid new food at the pos
+            # of newly inserted snake body.
             self.player.update(dt,hit)
-
             if hit:  # it hit
                 self.score += self.rewards["positive"]
                 self.food.new_position(self.player)
 
-            hits = pygame.sprite.spritecollide(
+            # Crash: head runs into snake body.
+            crash = pygame.sprite.spritecollide(
                 self.player.head, self.player.body_group, False)
-            if len(hits) > 0:
+            if len(crash) > 0:
                 self.lives = -1
 
             x_check = (

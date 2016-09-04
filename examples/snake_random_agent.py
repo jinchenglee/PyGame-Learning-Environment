@@ -25,18 +25,23 @@ agent = NaiveAgent(actions=p.getActionSet())
 
 p.init()
 reward = 0.0
-nb_frames = 300
+total_reward = 0.0
+nb_frames = 200
 
 for i in range(nb_frames):
     if p.game_over():
         p.reset_game()
+        reward = 0.0
+        total_reward = 0.0
 
     observation = p.getScreenRGB()
     #print("observation")
     #print(observation)
-    #p.saveScreen("image"+str(i)+".png")
+    p.saveScreen("tmp/image"+str(i).zfill(5)+".png")
     action = agent.pickAction(reward, observation)
     reward = p.act(action)
+    total_reward += reward
+    print(total_reward, reward)
 
 
 
