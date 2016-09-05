@@ -27,21 +27,28 @@ p.init()
 reward = 0.0
 total_reward = 0.0
 nb_frames = 200
+observation = p.getScreenRGB()
+done = False
 
 for i in range(nb_frames):
-    if p.game_over():
+    if done:
         p.reset_game()
         reward = 0.0
         total_reward = 0.0
 
-    observation = p.getScreenRGB()
-    #print("observation")
-    #print(observation)
-    p.saveScreen("tmp/image"+str(i).zfill(5)+".png")
     action = agent.pickAction(reward, observation)
+
     reward = p.act(action)
+    observation = p.getScreenRGB()
+    done = p.game_over()
+
     total_reward += reward
+
+    #print(observation)
+    #p.savescreen("tmp/image"+str(i).zfill(5)+".png")
     print(total_reward, reward)
+
+
 
 
 
