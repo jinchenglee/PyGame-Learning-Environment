@@ -240,6 +240,14 @@ class Snake(base.PyGameWrapper):
                 if key == self.actions["down"] and self.player.dir.y != -1:
                     self.player.dir = vec2d((0, 1))
 
+    def getActions(self):
+        """
+        Override the pygamewrapper getActions() func. 
+        Output valid actions in fixed order.
+
+        """
+        return [self.actions["left"],self.actions["right"],self.actions["up"],self.actions["down"]]
+
     def getGameState(self):
         """
 

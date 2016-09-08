@@ -173,7 +173,7 @@ class PLE(object):
             to perform.
 
         """
-        actions = self.game.actions.values()
+        actions = self.game.getActions()
 
         if self.add_noop_action:
             #<JC>actions.append(self.NOOP)
