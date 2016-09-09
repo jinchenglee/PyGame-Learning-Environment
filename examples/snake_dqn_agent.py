@@ -43,7 +43,7 @@ class DQN_Agent():
 
         # Create network
         self.create_DQN()
-        self.create_training_method()
+        self.create_tensorflow()
 
         # Init session
         self.session = tf.InteractiveSession()
@@ -72,28 +72,89 @@ class DQN_Agent():
         initial = tf.constant(0.01, shape = shape)
         return tf.Variable(initial)
 
-    def create_training_method(self):
-        pass
+
+    def create_tensorflow(self):
+        self.action_input = tf.placeholder(tf.float32, [None, self.action_dim]) # one-hot representation
+        self.y_input = tf.placeholder(tf.float32, [None])
+        Q_value_of_action = tf.reduce_sum(tf.mul(self.Q_value, self.action_input), reduction_indices=1)
+        self.cost = tf.reduce_mean(tf.square(self.y_input - Q_value_of_action))
+        self.optimizer = tf.train.AdamOptimizer(0.0001).minimize(self.cost)
 
     def perceive(self, observation, action, reward, next_observation, done):
-        pass
+        one_hot_action = np.zeros(self.action_dim)
+        one_hot_action[self.actions.index(action)] = 1
+        print(action, one_hot_action)
+        self.replay_buffer.append((observation, one_hot_action, reward, next_observation, done))
+
+        if len(self.replay_buffer) > REPLAY_SIZE:
+            self.replay_buffer.popleft()
+
+        if len(self.replay_buffer) > BATCH_SIZE:
+            self.train_DQN()
 
     def train_DQN(self):
-        pass
+        self.time_step += 1
+        # Step 1: obtain random minibatch from replay memory
+        minibatch = random.sample(self.replay_buffer,BATCH_SIZE)
+        # Create *observation_batch numpy array with right size
+        observation_batch = np.empty([1,self.state_dim])
+        next_observation_batch = np.empty([1,self.state_dim])
+        action_batch = []
+        reward_batch = []
+        for data in minibatch:
+            observation_batch = np.concatenate((observation_batch, data[0].reshape([1,self.state_dim])), axis=0)
+            action_batch.append(data[1])
+            reward_batch.append(data[2]) 
+            next_observation_batch = np.concatenate((next_observation_batch, data[3].reshape([1,self.state_dim])), axis=0)
+        # Remove the randomly created top line of *observation_batch array
+        observation_batch = np.delete(observation_batch,0,axis=0)
+        next_observation_batch = np.delete(next_observation_batch,0,axis=0)
+        print("next_observation_batch.shape = ", next_observation_batch.shape)
+
+        # Step 2: calculate y (Q-value of action in real play)
+        y_batch = []
+        Q_value_batch = self.Q_value.eval(feed_dict={self.state_input:next_observation_batch})
+        for i in range(0,BATCH_SIZE):
+            done = minibatch[i][4]
+            if done:
+                y_batch.append(reward_batch[i])
+            else:
+                y_batch.append(reward_batch[i] + GAMMA * np.max(Q_value_batch[i]))
+
+        self.optimizer.run(feed_dict={
+                self.y_input:y_batch,
+                self.action_input:action_batch,
+                self.state_input:observation_batch
+            })
 
     def pickAction(self, observation):
-        pass
+        Q_value = self.Q_value.eval(feed_dict = { 
+            self.state_input:[observation.reshape(self.state_dim)] 
+            })[0]
+        print("pickAction: Estimated Q-Values = ", Q_value)
+        action_index = np.argmax(Q_value)
+        print("pickAction: picked action = ", action_index)
+        return self.actions[action_index]
 
     def pickAction_egreedy(self, observation):
-        pass
+        Q_value = self.Q_value.eval(feed_dict = { 
+            self.state_input:[observation.reshape(self.state_dim)] 
+            })[0] # Evaluation take in [N, self.action_dim], thus output N of Q-values. Here N=1.
+        print("pickAction_egreedy: Estimated Q-Values = ", Q_value)
+        if random.random() <= self.epsilon:
+            action_index = random.randint(0,self.action_dim - 1)
+        else:
+            action_index = np.argmax(Q_value)
+        print("pickAction_egreedy: picked action = ", action_index)
+        return self.actions[action_index]
 
 
 
 #---------------------------------------------------------------
 # Hyper Parameters
 #---------------------------------------------------------------
-EPISODE = 1 # Episode limit
-STEP = 10      # Step limit within one episode 
+EPISODE = 100 # Episode limit
+STEP = 300      # Step limit within one episode 
 TEST = 10       # Number of experiement test every 100 episode
 
 def main():
