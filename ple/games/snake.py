@@ -140,8 +140,10 @@ class SnakePlayer():
             #print("hit, len =", self.length)
 
             # Fancy body color.
-            add = 100 if self.length % 2 == 0 else -100
+            #<<JC>> error out, not sure why -- add = 100 if self.length % 2 == 0 else -100
+            add = 100 if self.length % 2 == 0 else 0
             color = (self.color[0] + add, self.color[1], self.color[2] + add)
+            print("inside snake game, color = ", color)
 
             self.body.append(
                 SnakeSegment(

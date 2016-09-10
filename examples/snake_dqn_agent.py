@@ -10,7 +10,7 @@ import tensorflow as tf
 #---------------------------------------------------------------
 # Hyper Parameters for DQN
 NUM_CHANNELS = 3
-HIDDEN_LAYER_DEPTH = 1000
+HIDDEN_LAYER_DEPTH = 512
 
 GAMMA = 0.9 # discount factor for target Q
 INITIAL_EPSILON = 0.5 # starting value of epsilon
@@ -49,6 +49,9 @@ class DQN_Agent():
         self.session = tf.InteractiveSession()
         self.session.run(tf.initialize_all_variables())
 
+        # Add ops to save and restore all the variables.
+        self.saver = tf.train.Saver()
+
 
     def create_DQN(self):
         # network weights
@@ -58,7 +61,7 @@ class DQN_Agent():
         b2 = self.bias_variable([self.action_dim])
         # input layer
         self.state_input = tf.placeholder(tf.float32, [None, self.state_dim])
-        print("reshaped dim: ", self.state_input)
+        #print("reshaped dim: ", self.state_input)
         # hidden layers
         h_layer = tf.nn.relu(tf.matmul(self.state_input,W1) + b1)
         # Q Value layer
@@ -83,7 +86,7 @@ class DQN_Agent():
     def perceive(self, observation, action, reward, next_observation, done):
         one_hot_action = np.zeros(self.action_dim)
         one_hot_action[self.actions.index(action)] = 1
-        print(action, one_hot_action)
+        #print(action, one_hot_action)
         self.replay_buffer.append((observation, one_hot_action, reward, next_observation, done))
 
         if len(self.replay_buffer) > REPLAY_SIZE:
@@ -109,7 +112,7 @@ class DQN_Agent():
         # Remove the randomly created top line of *observation_batch array
         observation_batch = np.delete(observation_batch,0,axis=0)
         next_observation_batch = np.delete(next_observation_batch,0,axis=0)
-        print("next_observation_batch.shape = ", next_observation_batch.shape)
+        #print("next_observation_batch.shape = ", next_observation_batch.shape)
 
         # Step 2: calculate y (Q-value of action in real play)
         y_batch = []
@@ -127,25 +130,29 @@ class DQN_Agent():
                 self.state_input:observation_batch
             })
 
+    def saveParam(self):
+        # Save the scene
+        save_path = self.saver.save(self.session, "./tmp/model_tr_"+str(self.time_step)+".ckpt")
+
     def pickAction(self, observation):
         Q_value = self.Q_value.eval(feed_dict = { 
             self.state_input:[observation.reshape(self.state_dim)] 
             })[0]
-        print("pickAction: Estimated Q-Values = ", Q_value)
+        #print("pickAction: Estimated Q-Values = ", Q_value)
         action_index = np.argmax(Q_value)
-        print("pickAction: picked action = ", action_index)
+        #print("pickAction: picked action = ", action_index)
         return self.actions[action_index]
 
     def pickAction_egreedy(self, observation):
         Q_value = self.Q_value.eval(feed_dict = { 
             self.state_input:[observation.reshape(self.state_dim)] 
             })[0] # Evaluation take in [N, self.action_dim], thus output N of Q-values. Here N=1.
-        print("pickAction_egreedy: Estimated Q-Values = ", Q_value)
+        #print("pickAction_egreedy: Estimated Q-Values = ", Q_value)
         if random.random() <= self.epsilon:
             action_index = random.randint(0,self.action_dim - 1)
         else:
             action_index = np.argmax(Q_value)
-        print("pickAction_egreedy: picked action = ", action_index)
+        #print("pickAction_egreedy: picked action = ", action_index)
         return self.actions[action_index]
 
 
@@ -153,13 +160,13 @@ class DQN_Agent():
 #---------------------------------------------------------------
 # Hyper Parameters
 #---------------------------------------------------------------
-EPISODE = 100 # Episode limit
+EPISODE = 1000 # Episode limit
 STEP = 300      # Step limit within one episode 
 TEST = 10       # Number of experiement test every 100 episode
 
 def main():
     # Init PygameLearningEnv env and agent
-    game = Snake(width=16, height=16)
+    game = Snake(width=8, height=8)
     env = PLE(game, fps=60, display_screen=True, force_fps=True, add_noop_action=False)
     agent = DQN_Agent(env)
     
@@ -197,6 +204,10 @@ def main():
             total_reward = 0
             env.display_screen=True
             env.force_fps = False
+
+            # Save the trained parameters
+            agent.saveParam()
+
             for test in range(TEST):
                 # Initialize task
                 env.init()
