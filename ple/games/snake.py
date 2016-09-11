@@ -183,10 +183,10 @@ class Snake(base.PyGameWrapper):
                  init_length=1):
 
         actions = {
-            "up": K_w,
-            "left": K_a,
-            "down": K_s,
-            "right": K_d
+            "up": K_w,      # 119
+            "left": K_a,    # 97
+            "right": K_d,   # 100
+            "down": K_s     # 115
         }
 
         base.PyGameWrapper.__init__(self, width, height, actions=actions)
@@ -202,9 +202,9 @@ class Snake(base.PyGameWrapper):
         self.BG_COLOR = (0, 0, 0)
 
         self.rewards = {
-            "positive": 1.0,
-            "negative": -1.0,
-            "tick": 0,
+            "positive": 5.0,
+            "negative": -5.0,
+            "tick": -0.01,
             "loss": -5.0,
             "win": 5.0
         }
@@ -214,10 +214,12 @@ class Snake(base.PyGameWrapper):
         # cannot make consecutive 1-step turns.
         # Looks like a hack. Not sure whether pygame has a better way to impl 
         # this.
-        self.keydown_counter = 0
+        #self.keydown_counter = 0
 
     def _handle_player_events(self):
         for event in pygame.event.get():
+            #<<JC>>
+            #<<JC>>print("snake.py: event = ", event)
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
@@ -232,15 +234,19 @@ class Snake(base.PyGameWrapper):
 
                 if key == self.actions["left"] and self.player.dir.x != 1:
                     self.player.dir = vec2d((-1, 0))
+                    #<<JC>>print("event_handler: left")
 
                 if key == self.actions["right"] and self.player.dir.x != -1:
                     self.player.dir = vec2d((1, 0))
+                    #<<JC>>print("event_handler: right")
 
                 if key == self.actions["up"] and self.player.dir.y != 1:
                     self.player.dir = vec2d((0, -1))
+                    #<<JC>>print("event_handler: up")
 
                 if key == self.actions["down"] and self.player.dir.y != -1:
                     self.player.dir = vec2d((0, 1))
+                    #<<JC>>print("event_handler: down")
 
     def getActions(self):
         """
@@ -248,7 +254,7 @@ class Snake(base.PyGameWrapper):
         Output valid actions in fixed order.
 
         """
-        return [self.actions["left"],self.actions["right"],self.actions["up"],self.actions["down"]]
+        return [self.actions["left"],self.actions["up"],self.actions["right"],self.actions["down"]]
 
     def getGameState(self):
         """
@@ -281,6 +287,10 @@ class Snake(base.PyGameWrapper):
             state["snake_body"].append(dist)
 
         return state
+
+    def getSnakeheadFoodDistance(self):
+        return math.sqrt((self.player.head.pos.x - self.food.pos.x)
+            ** 2 + (self.player.head.pos.y - self.food.pos.y)**2)
 
     def getScore(self):
         return self.score
@@ -320,15 +330,17 @@ class Snake(base.PyGameWrapper):
         """
             Perform one step of game emulation.
         """
-        self.keydown_counter += dt
+        #self.keydown_counter += dt
+        #print("keydown_counter = ", self.keydown_counter)
 
         self.ticks += 1
         self.screen.fill(self.BG_COLOR)
         self._handle_player_events()
         self.score += self.rewards["tick"]
 
-        if self.keydown_counter > 100:
-            self.keydown_counter = 0
+        #if self.keydown_counter > 100:
+        if True:
+            #self.keydown_counter = 0
 
             hit = pygame.sprite.collide_rect(self.player.head, self.food)
             # Update postions of snake body. Should be done before 

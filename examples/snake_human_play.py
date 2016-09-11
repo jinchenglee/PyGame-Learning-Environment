@@ -13,6 +13,7 @@ while True:
     if game.game_over():
         game.init()
 
-    dt = game.clock.tick_busy_loop(10)
+    dt = game.clock.tick_busy_loop(5)
+    #print(dt)
     game.step(dt)
     pygame.display.update()

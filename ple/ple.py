@@ -368,6 +368,8 @@ class PLE(object):
         """
         Performs an action on the game. Checks if the game is over or if the provided action is valid based on the allowed action set.
         """
+        #<<JC>>
+        #<<JC>>print("ple.py: action = ", action)
         if self.game_over():
             return 0.0
 

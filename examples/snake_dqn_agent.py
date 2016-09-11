@@ -10,7 +10,7 @@ import tensorflow as tf
 #---------------------------------------------------------------
 # Hyper Parameters for DQN
 NUM_CHANNELS = 3
-HIDDEN_LAYER_DEPTH = 512
+HIDDEN_LAYER_DEPTH = 1000
 
 GAMMA = 0.9 # discount factor for target Q
 INITIAL_EPSILON = 0.5 # starting value of epsilon
@@ -83,7 +83,7 @@ class DQN_Agent():
         self.cost = tf.reduce_mean(tf.square(self.y_input - Q_value_of_action))
         self.optimizer = tf.train.AdamOptimizer(0.0001).minimize(self.cost)
 
-    def perceive(self, observation, action, reward, next_observation, done):
+    def perceive(self, observation, action, reward, next_observation, Snakehead_food_distance, done):
         one_hot_action = np.zeros(self.action_dim)
         one_hot_action[self.actions.index(action)] = 1
         #print(action, one_hot_action)
@@ -93,9 +93,9 @@ class DQN_Agent():
             self.replay_buffer.popleft()
 
         if len(self.replay_buffer) > BATCH_SIZE:
-            self.train_DQN()
+            self.train_DQN(Snakehead_food_distance)
 
-    def train_DQN(self):
+    def train_DQN(self, dist):
         self.time_step += 1
         # Step 1: obtain random minibatch from replay memory
         minibatch = random.sample(self.replay_buffer,BATCH_SIZE)
@@ -120,9 +120,9 @@ class DQN_Agent():
         for i in range(0,BATCH_SIZE):
             done = minibatch[i][4]
             if done:
-                y_batch.append(reward_batch[i])
+                y_batch.append(reward_batch[i]+dist)
             else:
-                y_batch.append(reward_batch[i] + GAMMA * np.max(Q_value_batch[i]))
+                y_batch.append(reward_batch[i]+dist + GAMMA * np.max(Q_value_batch[i]))
 
         self.optimizer.run(feed_dict={
                 self.y_input:y_batch,
@@ -133,6 +133,10 @@ class DQN_Agent():
     def saveParam(self):
         # Save the scene
         save_path = self.saver.save(self.session, "./tmp/model_tr_"+str(self.time_step)+".ckpt")
+
+    def restoreParam(self):
+        # Restore the scene
+        self.saver.restore(self.session, "./tmp_d/model_tr_d.ckpt")
 
     def pickAction(self, observation):
         Q_value = self.Q_value.eval(feed_dict = { 
@@ -160,13 +164,13 @@ class DQN_Agent():
 #---------------------------------------------------------------
 # Hyper Parameters
 #---------------------------------------------------------------
-EPISODE = 1000 # Episode limit
-STEP = 300      # Step limit within one episode 
+EPISODE = 500000 # Episode limit
+STEP = 100      # Step limit within one episode 
 TEST = 10       # Number of experiement test every 100 episode
 
 def main():
     # Init PygameLearningEnv env and agent
-    game = Snake(width=8, height=8)
+    game = Snake(width=16, height=16)
     env = PLE(game, fps=60, display_screen=True, force_fps=True, add_noop_action=False)
     agent = DQN_Agent(env)
     
@@ -180,6 +184,9 @@ def main():
         reward = 0.0
         done = False
     
+        # Restore the trained parameters
+        agent.restoreParam()
+
         # Training process
         for step_train in range(STEP):
             # Explore, use egreedy version
@@ -188,8 +195,9 @@ def main():
             reward = env.act(action)
             next_observation = env.getScreenRGB()
             done = env.game_over()
+            dist = game.getSnakeheadFoodDistance()
     
-            agent.perceive(observation, action, reward, next_observation, done)
+            agent.perceive(observation, action, reward, next_observation, dist, done)
 
             observation = next_observation
     
@@ -199,10 +207,10 @@ def main():
             if done:
                 break
 
-        # Test every 100 espisodes
-        if episode % 100 == 0:
+        # Test every 1000 espisodes
+        if episode % 10000 == 0:
             total_reward = 0
-            env.display_screen=True
+            env.display_screen=True # <<JC>> View the test result?
             env.force_fps = False
 
             # Save the trained parameters

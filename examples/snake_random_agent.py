@@ -8,18 +8,20 @@ class NaiveAgent():
     """
     def __init__(self, actions):
         self.actions = list(actions)
-        #print(actions)
+        print("Available actions = ", self.actions)
         self.index=0
 
     def pickAction(self, reward, obs):
+        # Random actions
         self.index = np.random.randint(0, len(self.actions))
+        # Circular actions
         #self.index = (self.index+1)%4
         #print(self.index)
         return self.actions[self.index]
 
 
 
-game = Snake(width=128, height=128)
+game = Snake(width=16, height=16)
 p = PLE(game, fps=30, display_screen=True, force_fps=False, add_noop_action=False)
 agent = NaiveAgent(actions=p.getActionSet())
 

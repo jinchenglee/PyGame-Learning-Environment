@@ -75,8 +75,19 @@ class PyGameWrapper(object):
         kd = pygame.event.Event(KEYDOWN, {"key": action})
         ku = pygame.event.Event(KEYUP, {"key": last_action})
 
+        #<<JC>>
+        #<<JC>>print("pygamewrapper.py: action = ", action)
+        #<<JC>>print("pygamewrapper.py: last_action = ", last_action)
+
         pygame.event.post(kd)
         pygame.event.post(ku)
+
+        #<<JC>>
+        #<<JC>>for event in pygame.event.get():
+        #<<JC>>    print("pygamewrapper.py: event = ", event)
+        #<<JC>>
+        #<<JC>>pygame.event.post(kd)
+        #<<JC>>pygame.event.post(ku)
 
     def _draw_frame(self, draw_screen):
         """
