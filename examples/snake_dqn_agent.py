@@ -4,6 +4,9 @@ import numpy as np
 import random
 from collections import deque
 import tensorflow as tf
+import pickle
+import gzip
+import datetime
 
 #---------------------------------------------------------------
 # DQN Parameters
@@ -13,7 +16,7 @@ NUM_CHANNELS = 3
 HIDDEN_LAYER_DEPTH = 512
 
 GAMMA = 0.9 # discount factor for target Q
-INITIAL_EPSILON = 0.5 # starting value of epsilon
+INITIAL_EPSILON = 0.9 # starting value of epsilon
 FINAL_EPSILON = 0.01 # final value of epsilon
 REPLAY_SIZE = 10000 # experience replay buffer size
 BATCH_SIZE = 64 # size of minibatch
@@ -51,7 +54,7 @@ class DQN_Agent():
         self.session.run(tf.initialize_all_variables())
 
         # Add ops to save and restore all the variables.
-        #self.saver = tf.train.Saver()
+        self.saver = tf.train.Saver()
 
 
     def conv2d(self, x, W, b, strides=1):
@@ -152,12 +155,14 @@ class DQN_Agent():
 
     def saveParam(self):
         # Save the scene
-        #save_path = self.saver.save(self.session, "./tmp/model_tr_"+str(self.time_step)+".ckpt")
+        save_path = self.saver.save(self.session, "./tmp/model_tr_"+str(self.time_step)+".ckpt")
+        pickle.dump( self.replay_buffer, gzip.open("./tmp/replay_buffer_"+str(self.time_step)+".p","wb") )
         pass
 
     def restoreParam(self):
         # Restore the scene
-        #self.saver.restore(self.session, "./tmp_e/model_tr_e.ckpt")
+        self.saver.restore(self.session, "./record/model_tr_2.ckpt")
+        self.replay_buffer = pickle.load( gzip.open("./record/replay_buffer_2.p","rb") )
         pass
 
     def pickAction(self, observation):
@@ -186,7 +191,7 @@ class DQN_Agent():
 #---------------------------------------------------------------
 # Hyper Parameters
 #---------------------------------------------------------------
-EPISODE = 50000 # Episode limit
+EPISODE = 20000 # Episode limit
 STEP = 100      # Step limit within one episode 
 TEST = 10       # Number of experiement test every 100 episode
 
@@ -218,7 +223,8 @@ def main():
         done = False
     
         # Restore the trained parameters
-        agent.restoreParam()
+        #if episode == 0:
+        #    agent.restoreParam()
 
         # Training process
         for step_train in range(STEP):
@@ -247,10 +253,11 @@ def main():
             if done:
                 break
 
-        # Test every 1000 espisodes
-        if episode % 1000 == 0:
+        # Test every 100 espisodes
+        if episode % 100 == 0:
+        #if True:
             total_reward = 0
-            env.display_screen=True # <<JC>> View the test result?
+            env.display_screen=False # <<JC>> View the test result?
             env.force_fps = False
 
             # Save the trained parameters
@@ -284,9 +291,11 @@ def main():
                         break
 
             average_reward = total_reward/TEST
-            print("episode: ", episode, "Evaluation Average Reward: ", average_reward)
-            if average_reward >= 10:
-                break
+            print(datetime.datetime.now().time(), "episode: ", episode, "/", EPISODE, " Evaluation Average Reward ", average_reward, "Epsilon ", agent.epsilon)
+            #if average_reward >= 10:
+            #    break
+            if (agent.epsilon > FINAL_EPSILON): 
+                agent.epsilon -= (INITIAL_EPSILON - FINAL_EPSILON)/200
 
 
 if __name__ == '__main__':

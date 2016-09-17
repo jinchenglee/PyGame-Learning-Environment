@@ -143,7 +143,7 @@ class SnakePlayer():
             #<<JC>> error out, not sure why -- add = 100 if self.length % 2 == 0 else -100
             add = 100 if self.length % 2 == 0 else 0
             color = (self.color[0] + add, self.color[1], self.color[2] + add)
-            print("inside snake game, color = ", color)
+            #print("inside snake game, color = ", color)
 
             self.body.append(
                 SnakeSegment(
@@ -204,7 +204,7 @@ class Snake(base.PyGameWrapper):
         self.rewards = {
             "positive": 5.0,
             "negative": -5.0,
-            "tick": -0.01,
+            "tick": -1.0,
             "loss": -5.0,
             "win": 5.0
         }
