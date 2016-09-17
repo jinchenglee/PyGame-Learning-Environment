@@ -1,0 +1,18 @@
+------------------------------
+log_1: 
+------------------------------
+
+Training log file that ran with later found bug: not decreasing epsilon as training goes by. Thus valuable trained Q-values not being exploited in time.
+Very early exploration is effective, but soon exploration led the training into weeds. 
+
+good trend =>    22:15:41.225640 episode:  0 / 10000  Evaluation Average Reward  -4.611 Epsilon  0.9
+good trend =>    22:15:58.682509 episode:  100 / 10000  Evaluation Average Reward  -4.718 Epsilon  0.8911
+good trend =>    22:16:21.285550 episode:  200 / 10000  Evaluation Average Reward  -0.4279999999999914 Epsilon  0.8822
+good trend =>    22:16:50.319592 episode:  300 / 10000  Evaluation Average Reward  0.2960000000000121 Epsilon  0.8733
+go in weeds=>    22:17:18.556561 episode:  400 / 10000  Evaluation Average Reward  -0.250999999999988 Epsilon  0.8644
+go in weeds=>    22:17:50.887580 episode:  500 / 10000  Evaluation Average Reward  -0.9999999999999831 Epsilon  0.8554999999999999
+go in weeds=>    22:18:22.305511 episode:  600 / 10000  Evaluation Average Reward  2.6339999999999923 Epsilon  0.8465999999999999
+go in weeds=>    22:18:54.699514 episode:  700 / 10000  Evaluation Average Reward  1.5000000000000209 Epsilon  0.8376999999999999
+go in weeds=>    22:19:29.123635 episode:  800 / 10000  Evaluation Average Reward  1.0190000000000188 Epsilon  0.8287999999999999
+go in weeds=>    22:20:04.238512 episode:  900 / 10000  Evaluation Average Reward  1.199040866595169e-14 Epsilon  0.8198999999999999
+go in weeds=>    22:20:36.667577 episode:  1000 / 10000  Evaluation Average Reward  -0.910999999999994 Epsilon  0.8109999999999998
