@@ -1,3 +1,13 @@
+
+------------------------------
+log_2: 09/17/2016 
+------------------------------
+1. Fixed epsilon not decreasing bug.
+2. Change every move reward to -1.0 if not food hit, was -0.01 which might have caused circling running witnessed in review as too little negative reward by doing that.
+3. Add code to store replay_buffer contents as well. Use pickle and gzip version.
+
+Not much progress after all these changes. 20,000 episodes ran (details in log_2), no big difference was witnessed in "Evaluation Average Reward".
+
 ------------------------------
 log_1: 
 ------------------------------
