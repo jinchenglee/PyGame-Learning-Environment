@@ -1,3 +1,28 @@
+------------------------------
+log_3: 09/21/2016 
+------------------------------
+1. Change snake game reward on food-eating from 5.0 to 50. 
+2. Add scalar_summary and graph variables into DQN net that allows monitoring cost and net topology/hierarchy in tensorboard.
+
+Training for 100,000 episodes (6 hrs) while testing every 1,000 episodes. 
+
+One interesting thig is that there's an unintended bug about Epsilon decreasing at 1/1000 pace after every testing. Was intended to decrease to 0.1, but only decreased to 0.8. Not sure how this affects the training process, good or bad. Seems positive. 
+
+Good progress witnessed in log as below. 
+
+07:32:17.325998 episode:  0 / 100000  Evaluation Average Reward  -8.2 Epsilon  0.9
+07:35:14.414888 episode:  1000 / 100000  Evaluation Average Reward  -65.0 Epsilon  0.8991100000000001
+07:38:22.090960 episode:  2000 / 100000  Evaluation Average Reward  -95.0 Epsilon  0.8982200000000001
+07:41:28.801890 episode:  3000 / 100000  Evaluation Average Reward  -35.0 Epsilon  0.8973300000000002
+07:44:34.591976 episode:  4000 / 100000  Evaluation Average Reward  -73.6 Epsilon  0.8964400000000002
+...
+12:56:30.844020 episode:  95000 / 100000  Evaluation Average Reward  11.2 Epsilon  0.8154500000000051
+13:00:12.513006 episode:  96000 / 100000  Evaluation Average Reward  81.0 Epsilon  0.8145600000000052
+13:03:43.000891 episode:  97000 / 100000  Evaluation Average Reward  80.5 Epsilon  0.8136700000000052
+13:07:15.963893 episode:  98000 / 100000  Evaluation Average Reward  30.3 Epsilon  0.8127800000000053
+13:10:52.995888 episode:  99000 / 100000  Evaluation Average Reward  59.2 Epsilon  0.8118900000000053
+
+
 
 ------------------------------
 log_2: 09/17/2016 
@@ -7,6 +32,8 @@ log_2: 09/17/2016
 3. Add code to store replay_buffer contents as well. Use pickle and gzip version.
 
 Not much progress after all these changes. 20,000 episodes ran (details in log_2), no big difference was witnessed in "Evaluation Average Reward".
+
+
 
 ------------------------------
 log_1: 

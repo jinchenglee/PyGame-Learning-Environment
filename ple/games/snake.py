@@ -202,10 +202,10 @@ class Snake(base.PyGameWrapper):
         self.BG_COLOR = (0, 0, 0)
 
         self.rewards = {
-            "positive": 5.0,
-            "negative": -5.0,
+            "positive": 50.0,
+            "negative": -50.0,
             "tick": -1.0,
-            "loss": -5.0,
+            "loss": -10.0,
             "win": 5.0
         }
 

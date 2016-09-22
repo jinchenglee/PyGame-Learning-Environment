@@ -161,8 +161,8 @@ class DQN_Agent():
 
     def restoreParam(self):
         # Restore the scene
-        self.saver.restore(self.session, "./record/model_tr_2.ckpt")
-        self.replay_buffer = pickle.load( gzip.open("./record/replay_buffer_2.p","rb") )
+        self.saver.restore(self.session, "./record/model_tr_3.ckpt")
+        self.replay_buffer = pickle.load( gzip.open("./record/replay_buffer_3.p","rb") )
         pass
 
     def pickAction(self, observation):

@@ -44,14 +44,20 @@ class DQN_Agent():
         # Some more parameters init
         self.time_step = 0
         self.epsilon = INITIAL_EPSILON
+        self.record_cnt = 0
 
         # Create network
         self.create_DQN_conv()
         self.create_tensorflow()
 
-        # Init session
         self.session = tf.InteractiveSession()
-        self.session.run(tf.initialize_all_variables())
+
+        # Merge all the summaries and write them out 
+        self.merged_summaries = tf.merge_all_summaries()
+        self.train_writer = tf.train.SummaryWriter("./tmp",self.session.graph)
+        self.test_writer = tf.train.SummaryWriter("./tmp")
+        # Init session
+        tf.initialize_all_variables().run()
 
         # Add ops to save and restore all the variables.
         self.saver = tf.train.Saver()
@@ -100,6 +106,8 @@ class DQN_Agent():
         self.y_input = tf.placeholder(tf.float32, [None])
         Q_value_of_action = tf.reduce_sum(tf.mul(self.Q_value, self.action_input), reduction_indices=1)
         self.cost = tf.reduce_mean(tf.square(self.y_input - Q_value_of_action))
+        # Monitor the cost of training
+        tf.scalar_summary('Cost',self.cost)
         self.optimizer = tf.train.AdamOptimizer(0.0001).minimize(self.cost)
 
     def perceive(self, observation, action, reward, next_observation, done):
@@ -147,11 +155,15 @@ class DQN_Agent():
             else:
                 y_batch.append(reward_batch[i] + GAMMA * np.max(Q_value_batch[i]))
 
-        self.optimizer.run(feed_dict={
+        self.summary, _ = self.session.run([self.merged_summaries, self.optimizer], feed_dict={
                 self.y_input:y_batch,
                 self.action_input:action_batch,
                 self.state_input:observation_batch
             })
+        # Record a summary after 100 times of training
+        self.record_cnt += 1
+        if self.record_cnt%100 == 0:
+            self.test_writer.add_summary(self.summary,self.record_cnt)
 
     def saveParam(self):
         # Save the scene
@@ -191,7 +203,7 @@ class DQN_Agent():
 #---------------------------------------------------------------
 # Hyper Parameters
 #---------------------------------------------------------------
-EPISODE = 20000 # Episode limit
+EPISODE = 100000 # Episode limit
 STEP = 100      # Step limit within one episode 
 TEST = 10       # Number of experiement test every 100 episode
 
@@ -253,8 +265,8 @@ def main():
             if done:
                 break
 
-        # Test every 100 espisodes
-        if episode % 100 == 0:
+        # Test every 1000 espisodes
+        if episode % 1000 == 0:
         #if True:
             total_reward = 0
             env.display_screen=False # <<JC>> View the test result?
@@ -295,7 +307,7 @@ def main():
             #if average_reward >= 10:
             #    break
             if (agent.epsilon > FINAL_EPSILON): 
-                agent.epsilon -= (INITIAL_EPSILON - FINAL_EPSILON)/200
+                agent.epsilon -= (INITIAL_EPSILON - FINAL_EPSILON)/1000
 
 
 if __name__ == '__main__':
