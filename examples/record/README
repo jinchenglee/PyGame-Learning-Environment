@@ -1,3 +1,33 @@
+
+------------------------------
+log_3: 09/22/2016 
+------------------------------
+Overnight 8 hrs training. Amazing result!
+
+Changes:
+1. As log_3 already shows good sign of learning. Starting epsilon is set to 0.5.
+2. Restored the scene where log_3 ends as training starting point. Log file shows initial regression, but eventually it skyrocketed.
+3. Fixed epsilon not descreasing at right step bug in last round. It turns out the biggest side effect is training turns out to be 2x slower (well understood as last round most occurrence were skipping training step due to large epsilon).
+4. 50,000 episodes took ~8 hrs. 
+5. Tensorboard shows cost shrink to <50, comparing to pretty large (<5000?) in last round.
+6. Might want to increase STEP to larger number as currently capped at 100 provides no training data for longer snake body case that started occurring after this round. 
+
+18:23:28.078647 episode:  0 / 50000  Evaluation Average Reward  45.6 Epsilon  0.5
+18:28:39.067795 episode:  1000 / 50000  Evaluation Average Reward  44.0 Epsilon  0.4902
+18:34:12.632748 episode:  2000 / 50000  Evaluation Average Reward  22.4 Epsilon  0.48040000000000005
+18:39:38.139624 episode:  3000 / 50000  Evaluation Average Reward  25.2 Epsilon  0.4706000000000001
+18:44:45.587622 episode:  4000 / 50000  Evaluation Average Reward  18.5 Epsilon  0.4608000000000001
+18:50:26.580619 episode:  5000 / 50000  Evaluation Average Reward  -2.1 Epsilon  0.4510000000000001
+18:56:29.614619 episode:  6000 / 50000  Evaluation Average Reward  -12.5 Epsilon  0.44120000000000015
+19:02:22.015741 episode:  7000 / 50000  Evaluation Average Reward  40.4 Epsilon  0.43140000000000017
+19:08:30.735617 episode:  8000 / 50000  Evaluation Average Reward  20.2 Epsilon  0.4216000000000002
+...
+00:42:21.790737 episode:  44000 / 50000  Evaluation Average Reward  314.3 Epsilon  0.06880000000000056
+00:58:45.220775 episode:  45000 / 50000  Evaluation Average Reward  365.4 Epsilon  0.05900000000000055
+01:12:30.911623 episode:  46000 / 50000  Evaluation Average Reward  345.8 Epsilon  0.04920000000000055
+01:28:50.394628 episode:  47000 / 50000  Evaluation Average Reward  317.0 Epsilon  0.039400000000000546
+01:47:09.349920 episode:  48000 / 50000  Evaluation Average Reward  391.7 Epsilon  0.029600000000000546
+02:06:22.258638 episode:  49000 / 50000  Evaluation Average Reward  366.0 Epsilon  0.019800000000000546
 ------------------------------
 log_3: 09/21/2016 
 ------------------------------

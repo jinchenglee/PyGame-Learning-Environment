@@ -16,7 +16,7 @@ NUM_CHANNELS = 3
 HIDDEN_LAYER_DEPTH = 512
 
 GAMMA = 0.9 # discount factor for target Q
-INITIAL_EPSILON = 0.9 # starting value of epsilon
+INITIAL_EPSILON = 0.5 # starting value of epsilon
 FINAL_EPSILON = 0.01 # final value of epsilon
 REPLAY_SIZE = 10000 # experience replay buffer size
 BATCH_SIZE = 64 # size of minibatch
@@ -173,8 +173,8 @@ class DQN_Agent():
 
     def restoreParam(self):
         # Restore the scene
-        self.saver.restore(self.session, "./record/model_tr_2.ckpt")
-        self.replay_buffer = pickle.load( gzip.open("./record/replay_buffer_2.p","rb") )
+        self.saver.restore(self.session, "./record/model_tr_3.ckpt")
+        self.replay_buffer = pickle.load( gzip.open("./record/replay_buffer_3.p","rb") )
         pass
 
     def pickAction(self, observation):
@@ -203,7 +203,7 @@ class DQN_Agent():
 #---------------------------------------------------------------
 # Hyper Parameters
 #---------------------------------------------------------------
-EPISODE = 100000 # Episode limit
+EPISODE = 50000 # Episode limit
 STEP = 100      # Step limit within one episode 
 TEST = 10       # Number of experiement test every 100 episode
 
@@ -235,8 +235,8 @@ def main():
         done = False
     
         # Restore the trained parameters
-        #if episode == 0:
-        #    agent.restoreParam()
+        if episode == 0:
+            agent.restoreParam()
 
         # Training process
         for step_train in range(STEP):
@@ -307,7 +307,7 @@ def main():
             #if average_reward >= 10:
             #    break
             if (agent.epsilon > FINAL_EPSILON): 
-                agent.epsilon -= (INITIAL_EPSILON - FINAL_EPSILON)/1000
+                agent.epsilon -= (INITIAL_EPSILON - FINAL_EPSILON)/50
 
 
 if __name__ == '__main__':
