@@ -205,8 +205,8 @@ class Snake(base.PyGameWrapper):
             "positive": 50.0,
             "negative": -50.0,
             "tick": -1.0,
-            "loss": -10.0,
-            "win": 5.0
+            "loss": -50.0,
+            "win": 50.0
         }
 
 
@@ -291,6 +291,9 @@ class Snake(base.PyGameWrapper):
     def getSnakeheadFoodDistance(self):
         return math.sqrt((self.player.head.pos.x - self.food.pos.x)
             ** 2 + (self.player.head.pos.y - self.food.pos.y)**2)
+
+    def getSnakeLen(self):
+        return self.player.length
 
     def getScore(self):
         return self.score

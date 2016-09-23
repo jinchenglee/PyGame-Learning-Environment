@@ -1,6 +1,29 @@
 
 ------------------------------
-log_3: 09/22/2016 
+log_5: 09/23/2016 
+------------------------------
+Overnight 9 hrs training. Decent progress witnessed: Average rewards moving from ~300 to ~500.
+Main changes:
+1. Increase STEP limit from 100 to 300 during training. This is because snake body gets longer and longer, STEP might limit the training process to get meaningful new data, i.e., body long enough but game exit due to step limit hit.
+2. Epsilon starts from 0.5 before decreasing. 
+3. Make game loss reward from -10 to -50 to punish more on the case snake hit into walls or its body, which was seen in reviews from previous training result. It seems doing its work as before this specific change, average rewards didn't change much after ~8 hrs training.
+
+22:49:09.689711 episode:  0 / 50000  Evaluation Average Reward  330.3333333333333 Epsilon  0.5
+22:54:45.592753 episode:  1000 / 50000  Evaluation Average Reward  266.3333333333333 Epsilon  0.4902
+22:59:50.440800 episode:  2000 / 50000  Evaluation Average Reward  303.0 Epsilon  0.48040000000000005
+23:05:06.064819 episode:  3000 / 50000  Evaluation Average Reward  281.6666666666667 Epsilon  0.4706000000000001
+23:10:25.395717 episode:  4000 / 50000  Evaluation Average Reward  212.33333333333334 Epsilon  0.4608000000000001
+...
+5:58:18.396785 episode:  45000 / 50000  Evaluation Average Reward  582.3333333333334 Epsilon  0.05900000000000055
+06:16:55.475853 episode:  46000 / 50000  Evaluation Average Reward  568.6666666666666 Epsilon  0.04920000000000055
+06:38:04.380719 episode:  47000 / 50000  Evaluation Average Reward  403.3333333333333 Epsilon  0.039400000000000546
+07:00:00.636041 episode:  48000 / 50000  Evaluation Average Reward  529.0 Epsilon  0.029600000000000546
+07:23:39.161947 episode:  49000 / 50000  Evaluation Average Reward  538.3333333333334 Epsilon  0.019800000000000546
+
+
+
+------------------------------
+log_4: 09/22/2016 
 ------------------------------
 Overnight 8 hrs training. Amazing result!
 

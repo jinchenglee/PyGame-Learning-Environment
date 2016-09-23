@@ -161,8 +161,8 @@ class DQN_Agent():
 
     def restoreParam(self):
         # Restore the scene
-        self.saver.restore(self.session, "./record/model_tr_4.ckpt")
-        self.replay_buffer = pickle.load( gzip.open("./record/replay_buffer_4.p","rb") )
+        self.saver.restore(self.session, "./tmp/model_tr_2233356.ckpt")
+        self.replay_buffer = pickle.load( gzip.open("./tmp/replay_buffer_2233356.p","rb") )
         pass
 
     def pickAction(self, observation):
@@ -192,8 +192,8 @@ class DQN_Agent():
 # Hyper Parameters
 #---------------------------------------------------------------
 EPISODE = 3 # Episode limit
-STEP = 100      # Step limit within one episode 
-TEST = 5       # Number of experiement test every 100 episode
+STEP = 1000      # Step limit within one episode 
+TEST = 3       # Number of experiement test every 100 episode
 
 def luminance(RGB):
     """
@@ -254,11 +254,13 @@ def main():
                 #print(observation)
                 #env.savescreen("tmp/image"+str(step_test).zfill(5)+".png")
 
+                #print("Game over reward = ", reward)
                 if done:
-                    print("Game over after ",step_test, " steps.")
+                    print("Game over after ",step_test, " steps.", "Snake length = ", game.getSnakeLen())
                     break
+                elif step_test==STEP-1:
+                    print("Game over after ", STEP , " steps.", "Snake length = ", game.getSnakeLen())
 
-        print("Game over after ", STEP , " steps.")
         average_reward = total_reward/TEST
         print(datetime.datetime.now().time(), "episode: ", episode, "Evaluation Average Reward: ", average_reward)
 

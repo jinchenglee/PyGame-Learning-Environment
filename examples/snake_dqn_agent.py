@@ -173,8 +173,8 @@ class DQN_Agent():
 
     def restoreParam(self):
         # Restore the scene
-        self.saver.restore(self.session, "./record/model_tr_3.ckpt")
-        self.replay_buffer = pickle.load( gzip.open("./record/replay_buffer_3.p","rb") )
+        self.saver.restore(self.session, "./record/model_tr_4.ckpt")
+        self.replay_buffer = pickle.load( gzip.open("./record/replay_buffer_4.p","rb") )
         pass
 
     def pickAction(self, observation):
@@ -204,8 +204,8 @@ class DQN_Agent():
 # Hyper Parameters
 #---------------------------------------------------------------
 EPISODE = 50000 # Episode limit
-STEP = 100      # Step limit within one episode 
-TEST = 10       # Number of experiement test every 100 episode
+STEP = 300      # Step limit within one episode 
+TEST = 3       # Number of experiement test every 100 episode
 
 def luminance(RGB):
     """
