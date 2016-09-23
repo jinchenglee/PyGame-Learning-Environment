@@ -7,6 +7,7 @@ Main changes:
 1. Increase STEP limit from 100 to 300 during training. This is because snake body gets longer and longer, STEP might limit the training process to get meaningful new data, i.e., body long enough but game exit due to step limit hit.
 2. Epsilon starts from 0.5 before decreasing. 
 3. Make game loss reward from -10 to -50 to punish more on the case snake hit into walls or its body, which was seen in reviews from previous training result. It seems doing its work as before this specific change, average rewards didn't change much after ~8 hrs training.
+4. Strangely the cost metric in tensorboard doesn't seem to descrease, it first decreased from ~60 to ~35 then went back to ~50. Will keep an eye on it. 
 
 22:49:09.689711 episode:  0 / 50000  Evaluation Average Reward  330.3333333333333 Epsilon  0.5
 22:54:45.592753 episode:  1000 / 50000  Evaluation Average Reward  266.3333333333333 Epsilon  0.4902
