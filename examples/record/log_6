@@ -1,0 +1,118 @@
+I tensorflow/stream_executor/dso_loader.cc:111] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:111] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:111] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:111] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:111] successfully opened CUDA library libcurand.so.8.0 locally
+valid actions list:  [97, 119, 100, 115] action_dim:  4
+game screen dim:  [16, 16, 4]
+I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:925] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+I tensorflow/core/common_runtime/gpu/gpu_init.cc:118] Found device 0 with properties: 
+name: GeForce GTX 1070
+major: 6 minor: 1 memoryClockRate (GHz) 1.683
+pciBusID 0000:01:00.0
+Total memory: 7.91GiB
+Free memory: 7.45GiB
+I tensorflow/core/common_runtime/gpu/gpu_init.cc:138] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_init.cc:148] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:909] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 1070, pci bus id: 0000:01:00.0)
+08:30:36.776094 episode:  0 / 100000  Evaluation Average Reward  633.3333333333334 Epsilon  0.5
+08:36:23.152217 episode:  1000 / 100000  Evaluation Average Reward  384.6666666666667 Epsilon  0.4951
+08:42:21.231953 episode:  2000 / 100000  Evaluation Average Reward  465.3333333333333 Epsilon  0.49019999999999997
+08:48:23.480256 episode:  3000 / 100000  Evaluation Average Reward  394.0 Epsilon  0.48529999999999995
+08:54:23.022088 episode:  4000 / 100000  Evaluation Average Reward  672.0 Epsilon  0.48039999999999994
+09:00:17.226050 episode:  5000 / 100000  Evaluation Average Reward  612.3333333333334 Epsilon  0.4754999999999999
+09:06:25.430960 episode:  6000 / 100000  Evaluation Average Reward  550.6666666666666 Epsilon  0.4705999999999999
+09:12:08.539065 episode:  7000 / 100000  Evaluation Average Reward  499.0 Epsilon  0.4656999999999999
+09:17:00.079197 episode:  8000 / 100000  Evaluation Average Reward  449.0 Epsilon  0.4607999999999999
+09:22:08.857121 episode:  9000 / 100000  Evaluation Average Reward  524.0 Epsilon  0.45589999999999986
+09:27:37.769206 episode:  10000 / 100000  Evaluation Average Reward  470.6666666666667 Epsilon  0.45099999999999985
+09:33:03.880036 episode:  11000 / 100000  Evaluation Average Reward  467.3333333333333 Epsilon  0.44609999999999983
+09:38:21.099085 episode:  12000 / 100000  Evaluation Average Reward  433.0 Epsilon  0.4411999999999998
+09:44:23.048966 episode:  13000 / 100000  Evaluation Average Reward  594.0 Epsilon  0.4362999999999998
+09:50:59.349999 episode:  14000 / 100000  Evaluation Average Reward  370.6666666666667 Epsilon  0.4313999999999998
+09:57:22.932960 episode:  15000 / 100000  Evaluation Average Reward  586.6666666666666 Epsilon  0.42649999999999977
+10:03:47.183118 episode:  16000 / 100000  Evaluation Average Reward  325.6666666666667 Epsilon  0.42159999999999975
+10:10:53.055017 episode:  17000 / 100000  Evaluation Average Reward  473.0 Epsilon  0.41669999999999974
+10:17:49.718045 episode:  18000 / 100000  Evaluation Average Reward  615.6666666666666 Epsilon  0.4117999999999997
+10:24:31.904951 episode:  19000 / 100000  Evaluation Average Reward  302.0 Epsilon  0.4068999999999997
+10:31:37.252127 episode:  20000 / 100000  Evaluation Average Reward  348.3333333333333 Epsilon  0.4019999999999997
+10:36:56.816156 episode:  21000 / 100000  Evaluation Average Reward  517.0 Epsilon  0.3970999999999997
+10:42:57.498055 episode:  22000 / 100000  Evaluation Average Reward  396.3333333333333 Epsilon  0.39219999999999966
+10:50:20.870001 episode:  23000 / 100000  Evaluation Average Reward  544.6666666666666 Epsilon  0.38729999999999964
+10:57:13.711008 episode:  24000 / 100000  Evaluation Average Reward  484.3333333333333 Epsilon  0.38239999999999963
+11:04:22.244949 episode:  25000 / 100000  Evaluation Average Reward  330.3333333333333 Epsilon  0.3774999999999996
+11:11:49.441957 episode:  26000 / 100000  Evaluation Average Reward  488.0 Epsilon  0.3725999999999996
+11:19:04.460019 episode:  27000 / 100000  Evaluation Average Reward  419.3333333333333 Epsilon  0.3676999999999996
+11:26:29.470064 episode:  28000 / 100000  Evaluation Average Reward  425.0 Epsilon  0.36279999999999957
+11:34:14.274069 episode:  29000 / 100000  Evaluation Average Reward  410.0 Epsilon  0.35789999999999955
+11:42:20.997990 episode:  30000 / 100000  Evaluation Average Reward  375.6666666666667 Epsilon  0.35299999999999954
+11:50:40.280963 episode:  31000 / 100000  Evaluation Average Reward  580.3333333333334 Epsilon  0.3480999999999995
+11:58:43.658023 episode:  32000 / 100000  Evaluation Average Reward  438.3333333333333 Epsilon  0.3431999999999995
+12:06:41.325080 episode:  33000 / 100000  Evaluation Average Reward  397.3333333333333 Epsilon  0.3382999999999995
+12:15:24.167958 episode:  34000 / 100000  Evaluation Average Reward  606.0 Epsilon  0.3333999999999995
+12:24:18.788034 episode:  35000 / 100000  Evaluation Average Reward  435.6666666666667 Epsilon  0.32849999999999946
+12:32:50.174953 episode:  36000 / 100000  Evaluation Average Reward  468.3333333333333 Epsilon  0.32359999999999944
+12:41:13.153081 episode:  37000 / 100000  Evaluation Average Reward  393.6666666666667 Epsilon  0.31869999999999943
+12:49:34.330983 episode:  38000 / 100000  Evaluation Average Reward  508.6666666666667 Epsilon  0.3137999999999994
+12:58:15.484096 episode:  39000 / 100000  Evaluation Average Reward  468.0 Epsilon  0.3088999999999994
+13:06:52.237030 episode:  40000 / 100000  Evaluation Average Reward  583.3333333333334 Epsilon  0.3039999999999994
+13:15:26.987950 episode:  41000 / 100000  Evaluation Average Reward  429.6666666666667 Epsilon  0.29909999999999937
+13:24:23.521064 episode:  42000 / 100000  Evaluation Average Reward  530.0 Epsilon  0.29419999999999935
+13:33:17.463072 episode:  43000 / 100000  Evaluation Average Reward  403.3333333333333 Epsilon  0.28929999999999934
+13:42:41.003054 episode:  44000 / 100000  Evaluation Average Reward  506.6666666666667 Epsilon  0.2843999999999993
+13:52:01.148101 episode:  45000 / 100000  Evaluation Average Reward  511.0 Epsilon  0.2794999999999993
+14:01:14.907029 episode:  46000 / 100000  Evaluation Average Reward  442.6666666666667 Epsilon  0.2745999999999993
+14:10:28.944954 episode:  47000 / 100000  Evaluation Average Reward  359.3333333333333 Epsilon  0.2696999999999993
+14:20:11.288151 episode:  48000 / 100000  Evaluation Average Reward  544.0 Epsilon  0.26479999999999926
+14:29:33.830070 episode:  49000 / 100000  Evaluation Average Reward  426.0 Epsilon  0.25989999999999924
+14:39:30.275966 episode:  50000 / 100000  Evaluation Average Reward  402.0 Epsilon  0.2549999999999992
+14:49:04.912990 episode:  51000 / 100000  Evaluation Average Reward  514.6666666666666 Epsilon  0.2500999999999992
+14:59:02.258994 episode:  52000 / 100000  Evaluation Average Reward  721.0 Epsilon  0.24519999999999922
+15:09:18.122018 episode:  53000 / 100000  Evaluation Average Reward  338.3333333333333 Epsilon  0.24029999999999924
+15:19:53.206006 episode:  54000 / 100000  Evaluation Average Reward  537.3333333333334 Epsilon  0.23539999999999925
+15:29:51.003152 episode:  55000 / 100000  Evaluation Average Reward  408.6666666666667 Epsilon  0.23049999999999926
+15:39:02.263020 episode:  56000 / 100000  Evaluation Average Reward  562.6666666666666 Epsilon  0.22559999999999927
+15:49:30.854017 episode:  57000 / 100000  Evaluation Average Reward  607.6666666666666 Epsilon  0.22069999999999929
+15:59:45.566115 episode:  58000 / 100000  Evaluation Average Reward  486.3333333333333 Epsilon  0.2157999999999993
+16:08:14.250052 episode:  59000 / 100000  Evaluation Average Reward  521.6666666666666 Epsilon  0.2108999999999993
+16:19:38.007983 episode:  60000 / 100000  Evaluation Average Reward  572.6666666666666 Epsilon  0.20599999999999932
+16:30:27.201960 episode:  61000 / 100000  Evaluation Average Reward  510.6666666666667 Epsilon  0.20109999999999933
+16:39:16.591955 episode:  62000 / 100000  Evaluation Average Reward  628.6666666666666 Epsilon  0.19619999999999935
+16:47:37.871951 episode:  63000 / 100000  Evaluation Average Reward  530.0 Epsilon  0.19129999999999936
+16:59:22.573953 episode:  64000 / 100000  Evaluation Average Reward  487.3333333333333 Epsilon  0.18639999999999937
+17:11:41.440007 episode:  65000 / 100000  Evaluation Average Reward  602.3333333333334 Epsilon  0.18149999999999938
+17:23:40.980958 episode:  66000 / 100000  Evaluation Average Reward  642.3333333333334 Epsilon  0.1765999999999994
+17:33:54.905022 episode:  67000 / 100000  Evaluation Average Reward  518.6666666666666 Epsilon  0.1716999999999994
+17:43:44.174948 episode:  68000 / 100000  Evaluation Average Reward  461.0 Epsilon  0.16679999999999942
+17:56:00.769044 episode:  69000 / 100000  Evaluation Average Reward  505.0 Epsilon  0.16189999999999943
+18:08:45.281987 episode:  70000 / 100000  Evaluation Average Reward  486.0 Epsilon  0.15699999999999945
+18:20:33.606952 episode:  71000 / 100000  Evaluation Average Reward  565.3333333333334 Epsilon  0.15209999999999946
+18:33:56.772015 episode:  72000 / 100000  Evaluation Average Reward  616.0 Epsilon  0.14719999999999947
+18:47:37.382040 episode:  73000 / 100000  Evaluation Average Reward  473.0 Epsilon  0.14229999999999948
+19:02:02.438960 episode:  74000 / 100000  Evaluation Average Reward  637.0 Epsilon  0.1373999999999995
+19:15:28.651137 episode:  75000 / 100000  Evaluation Average Reward  558.6666666666666 Epsilon  0.1324999999999995
+19:29:28.811044 episode:  76000 / 100000  Evaluation Average Reward  610.3333333333334 Epsilon  0.12759999999999952
+19:43:04.501042 episode:  77000 / 100000  Evaluation Average Reward  647.0 Epsilon  0.12269999999999952
+19:56:12.944104 episode:  78000 / 100000  Evaluation Average Reward  442.0 Epsilon  0.11779999999999952
+20:11:36.091004 episode:  79000 / 100000  Evaluation Average Reward  540.3333333333334 Epsilon  0.11289999999999951
+20:26:48.094164 episode:  80000 / 100000  Evaluation Average Reward  579.3333333333334 Epsilon  0.10799999999999951
+20:43:20.547097 episode:  81000 / 100000  Evaluation Average Reward  488.3333333333333 Epsilon  0.10309999999999951
+20:59:42.099953 episode:  82000 / 100000  Evaluation Average Reward  569.3333333333334 Epsilon  0.09819999999999951
+21:16:52.789036 episode:  83000 / 100000  Evaluation Average Reward  528.0 Epsilon  0.09329999999999951
+21:31:52.085088 episode:  84000 / 100000  Evaluation Average Reward  611.0 Epsilon  0.0883999999999995
+21:49:44.106034 episode:  85000 / 100000  Evaluation Average Reward  481.3333333333333 Epsilon  0.0834999999999995
+22:05:45.416980 episode:  86000 / 100000  Evaluation Average Reward  836.0 Epsilon  0.0785999999999995
+22:24:06.647989 episode:  87000 / 100000  Evaluation Average Reward  571.6666666666666 Epsilon  0.0736999999999995
+22:42:02.824026 episode:  88000 / 100000  Evaluation Average Reward  608.0 Epsilon  0.0687999999999995
+23:00:49.640079 episode:  89000 / 100000  Evaluation Average Reward  666.3333333333334 Epsilon  0.0638999999999995
+23:19:43.806059 episode:  90000 / 100000  Evaluation Average Reward  648.6666666666666 Epsilon  0.0589999999999995
+23:39:14.353083 episode:  91000 / 100000  Evaluation Average Reward  600.6666666666666 Epsilon  0.054099999999999496
+23:55:50.042970 episode:  92000 / 100000  Evaluation Average Reward  779.6666666666666 Epsilon  0.049199999999999494
+00:17:44.182189 episode:  93000 / 100000  Evaluation Average Reward  415.6666666666667 Epsilon  0.04429999999999949
+00:39:43.167083 episode:  94000 / 100000  Evaluation Average Reward  441.6666666666667 Epsilon  0.03939999999999949
+01:02:39.041284 episode:  95000 / 100000  Evaluation Average Reward  585.6666666666666 Epsilon  0.03449999999999949
+01:26:00.300021 episode:  96000 / 100000  Evaluation Average Reward  800.0 Epsilon  0.029599999999999488
+01:48:49.700954 episode:  97000 / 100000  Evaluation Average Reward  719.3333333333334 Epsilon  0.024699999999999486
+02:10:49.350020 episode:  98000 / 100000  Evaluation Average Reward  600.0 Epsilon  0.019799999999999485
+02:35:51.536080 episode:  99000 / 100000  Evaluation Average Reward  518.6666666666666 Epsilon  0.014899999999999485
+

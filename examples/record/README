@@ -1,5 +1,41 @@
 
 ------------------------------
+log_6: 09/24/2016 
+------------------------------
+18 hrs training, marginal improvements witnessed in review replay. 
+Changes:
+1. Increased episode limit to 100,000, increased STEP limit to 500.
+2. Start epsilon at 0.5 and decrease evenly along 100 steps (every 1000 episodes).
+
+Round 5 replay:
+Game over after  117  steps. Snake length =  17
+Game over after  115  steps. Snake length =  16
+Game over after  128  steps. Snake length =  19
+07:55:29.460919 episode:  0 Evaluation Average Reward:  645.6666666666666
+Game over after  82  steps. Snake length =  13
+Game over after  91  steps. Snake length =  13
+Game over after  80  steps. Snake length =  10
+07:55:46.361912 episode:  1 Evaluation Average Reward:  414.6666666666667
+Game over after  54  steps. Snake length =  7
+Game over after  49  steps. Snake length =  10
+Game over after  50  steps. Snake length =  9
+07:55:56.663051 episode:  2 Evaluation Average Reward:  281.3333333333333
+
+Round 6 replay:
+Game over after  181  steps. Snake length =  21
+Game over after  171  steps. Snake length =  23
+Game over after  157  steps. Snake length =  21
+07:56:49.817095 episode:  0 Evaluation Average Reward:  812.6666666666666
+Game over after  40  steps. Snake length =  7
+Game over after  129  steps. Snake length =  18
+Game over after  183  steps. Snake length =  21
+07:57:13.254170 episode:  1 Evaluation Average Reward:  548.3333333333334
+Game over after  120  steps. Snake length =  17
+Game over after  89  steps. Snake length =  15
+Game over after  111  steps. Snake length =  19
+07:57:34.576166 episode:  2 Evaluation Average Reward:  642.3333333333334
+
+------------------------------
 log_5: 09/23/2016 
 ------------------------------
 Overnight 9 hrs training. Decent progress witnessed: Average rewards moving from ~300 to ~500.
