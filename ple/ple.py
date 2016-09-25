@@ -290,7 +290,9 @@ class PLE(object):
             The path with filename to where we want the image saved.
 
         """
-        frame = Image.fromarray(self.getScreenRGB())
+        tmp = self.getScreenRGB()
+        tmp_4x = np.repeat(np.repeat(tmp, 4, axis=0), 4, axis=1)
+        frame = Image.fromarray(tmp_4x)
         frame.save(filename)
 
     def getScreenDims(self):

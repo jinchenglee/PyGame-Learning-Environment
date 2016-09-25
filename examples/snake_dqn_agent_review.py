@@ -191,9 +191,9 @@ class DQN_Agent():
 #---------------------------------------------------------------
 # Hyper Parameters
 #---------------------------------------------------------------
-EPISODE = 3 # Episode limit
+EPISODE = 1 # Episode limit
 STEP = 1000      # Step limit within one episode 
-TEST = 3       # Number of experiement test every 100 episode
+TEST = 2       # Number of experiement test every 100 episode
 
 def luminance(RGB):
     """
@@ -252,7 +252,7 @@ def main():
                 total_reward += reward
         
                 #print(observation)
-                #env.savescreen("tmp/image"+str(step_test).zfill(5)+".png")
+                env.saveScreen("./tmp/image"+str(step_test).zfill(5)+".png")
 
                 #print("Game over reward = ", reward)
                 if done:
