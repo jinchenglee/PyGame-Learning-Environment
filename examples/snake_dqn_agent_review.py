@@ -262,7 +262,7 @@ def main():
                     print("Game over after ", STEP , " steps.", "Snake length = ", game.getSnakeLen())
 
         average_reward = total_reward/TEST
-        print(datetime.datetime.now().time(), "episode: ", episode, "Evaluation Average Reward: ", average_reward)
+        print(datetime.datetime.now().time().strftime("%X"), " | Episode: ", episode, "/", EPISODE, " | Evaluation Average Reward: ", '{0:5.1f}'.format(average_reward))
 
 
 if __name__ == '__main__':

@@ -303,7 +303,7 @@ def main():
                         break
 
             average_reward = total_reward/TEST
-            print(datetime.datetime.now().time(), "episode: ", episode, "/", EPISODE, " Evaluation Average Reward ", average_reward, "Epsilon ", agent.epsilon)
+            print(datetime.datetime.now().time().strftime("%X"), " | Episode: ", episode, "/", EPISODE, " | Evaluation Average Reward: ", '{0:5.1f}'.format(average_reward), " | Epsilon: ", '{0:4.2f}'.format(agent.epsilon))
             #if average_reward >= 10:
             #    break
             if (agent.epsilon > FINAL_EPSILON): 
