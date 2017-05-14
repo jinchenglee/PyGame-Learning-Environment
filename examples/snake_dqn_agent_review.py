@@ -1,4 +1,4 @@
-from ple.games import Snake
+import ple.games.snake
 from ple import PLE
 import numpy as np
 import random
@@ -206,7 +206,7 @@ def luminance(RGB):
 
 def main():
     # Init PygameLearningEnv env and agent
-    game = Snake(width=16, height=16)
+    game = ple.games.snake.Snake(width=16, height=16)
     env = PLE(game, fps=15, display_screen=True, force_fps=True, add_noop_action=False)
     agent = DQN_Agent(env)
     
