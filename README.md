@@ -24,12 +24,12 @@ pip3 install pygame
 
 * Set up environment variable $PYTHONPATH
 ```sh
-export PYTHONPATH = <where your PyGame-Learning-Environments dir>/examples
+export PYTHONPATH = <where your PyGame-Learning-Environments dir>
 ```
 
 * Play by human player (Keys ASDW for directions)
 ```sh
-cd PyGame-Learning-Environments
+cd PyGame-Learning-Environments/examples
 python3 snake_human_play.py 
 ```
 
