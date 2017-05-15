@@ -18,31 +18,32 @@ This was created before OpenAI's [Gym] was created. The benefit of PLE is you ca
 ```sh
 pip3 install pygame
 ```
-* Tensorflow 0.11 (? the version around 201608)
+* Tensorflow 1.0 
 
 ### How to play
 
 * Set up environment variable $PYTHONPATH
 ```sh
-export PYTHONPATH = <where your PyGame-Learning-Environments dir>
+export PYTHONPATH = <where your PyGame-Learning-Environments dir>/examples
 ```
 
 * Play by human player (Keys ASDW for directions)
 ```sh
 cd PyGame-Learning-Environments
-python3 examples/snake_human_play.py 
+python3 snake_human_play.py 
 ```
 
 * Play with an agent issuing random commands
 ```sh
-python3 examples/snake_random_agent.py 
+python3 snake_random_agent.py 
 ```
 
 * Training with DQN agent
 ```sh
-python3 examples/snake_dqn_agent.py 
+python3 snake_dqn_agent.py 
 ```
-* Play with trained model (*Update: 2017/05, seems broken with updated Tensorflow version*)
+
+* Play with trained model 
 ```sh
-python3 examples/snake_dqn_agent_review.py 
+python3 snake_dqn_agent_review.py 
 ```

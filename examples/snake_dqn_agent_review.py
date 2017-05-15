@@ -51,7 +51,7 @@ class DQN_Agent():
 
         # Init session
         self.session = tf.InteractiveSession()
-        self.session.run(tf.initialize_all_variables())
+        self.session.run(tf.global_variables_initializer())
 
         # Add ops to save and restore all the variables.
         self.saver = tf.train.Saver()
@@ -98,7 +98,7 @@ class DQN_Agent():
     def create_tensorflow(self):
         self.action_input = tf.placeholder(tf.float32, [None, self.action_dim]) # one-hot representation
         self.y_input = tf.placeholder(tf.float32, [None])
-        Q_value_of_action = tf.reduce_sum(tf.mul(self.Q_value, self.action_input), reduction_indices=1)
+        Q_value_of_action = tf.reduce_sum(tf.multiply(self.Q_value, self.action_input), reduction_indices=1)
         self.cost = tf.reduce_mean(tf.square(self.y_input - Q_value_of_action))
         self.optimizer = tf.train.AdamOptimizer(0.0001).minimize(self.cost)
 
