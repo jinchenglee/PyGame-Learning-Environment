@@ -2,7 +2,7 @@
 [PLE]: https://github.com/ntasfi/PyGame-Learning-Environment 'PLE'
 [dqn_agent_play]: ./09242016_DQN_Snake.gif 'DQN agent playing snake game'
 
-## Snake Game by played by Reinforcement Learning (DQN)
+## Snake Game played by Reinforcement Learning (DQN)
 
 ![alt text][dqn_agent_play]
 
